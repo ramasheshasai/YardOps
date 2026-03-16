@@ -7,3 +7,6 @@ class YardSopt(db.Model):
     site_id = db.Column(db.Integer,db.ForeignKey("sites.id"),nullable=False)
     spot_label = db.Colunn(db.string(255),nullable=False)
     is_occupied = db.Column(db.Boolean, default=False)
+
+    sites = db.relationship("Site", back_populates="yard_spots")
+    appointments = db.relationship("Appointment", back_populates="yard_spot")

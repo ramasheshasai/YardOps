@@ -8,3 +8,5 @@ class Trailder(db.Model):
     carrier_name = db.Column(db.String(255))
     trailer_type = db.Column(db.String(20))
     temp_setting = db.Column(db.Float,nullable=True)
+
+    appointments = db.relationship("Appointment", back_populates="trailer")

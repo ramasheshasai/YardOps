@@ -3,7 +3,7 @@ from yardops.extensions import db
 class Appointment(db.Model):
     __tablename__ = 'appointments'
 
-    id = db.Column(db.Integer )
+    id = db.Column(db.Integer, primary_key=True)
     trailer_id = db.Column(db.Integer,db.ForeignKey("trailers.id"),nullable=False)
     site_id = db.Column(db.Integer,db.ForeignKey("sites.id"),nullable=False)
     yard_spot_id = db.Column(db.Integer,db.ForeignKey("yard_spots.id"),nullable=False)

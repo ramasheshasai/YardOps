@@ -1,4 +1,4 @@
-from yarndrops.extensions import db
+from yardops.extensions import db
 
 class Site(db.Model):
     __tablename__ = 'sites'

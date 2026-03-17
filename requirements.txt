@@ -5,3 +5,4 @@ redis
 alembic
 pytest
 gunicorn
+flask-migrate

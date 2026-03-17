@@ -1,7 +1,7 @@
 from flask import Flask
 from .extensions import db
-from .config import Config   
-
+from config import Config   
+from yardops.models import site, yard_spot, trailer, appointment
 from flask_migrate import Migrate  
 from yardops.models import *  
 

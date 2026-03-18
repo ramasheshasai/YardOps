@@ -1,4 +1,5 @@
 from yardops.extensions import db
+from datetime import datetime
 
 class Site(db.Model):
     __tablename__ = 'sites'
@@ -6,7 +7,11 @@ class Site(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     address = db.Column(db.String(255), nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(
+    db.DateTime,
+    default=datetime.utcnow,
+    nullable=False
+)
 
 
     yard_spots = db.relationship("YardSpot", back_populates="site")

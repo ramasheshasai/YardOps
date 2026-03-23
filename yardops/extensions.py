@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
-from redis import Redis
+import redis
 from flask_migrate import Migrate 
 
 db = SQLAlchemy()
 migrate = Migrate()
-redis_client = None
+redis_client = redis.Redis.from_url("redis://redis:6379/0")

@@ -1,6 +1,5 @@
 from flask import Flask, jsonify
 from flask_migrate import Migrate
-
 from .extensions import db 
 from config import Config 
 
@@ -11,9 +10,11 @@ from yardops.errors import (
     SpotOccupiedError
 )
 from yardops.blueprints.sites import sites_bp
-from yardops.models import Site, YardSpot, Trailer, Appointment
-
+from yardops import models
 migrate = Migrate()
+from yardops.blueprints.trailers import trailers_bp
+from yardops.factories.appointment_factory import AppointmentFactory
+from yardops.blueprints.appointments import appointments_bp
 
 
 def create_app():
@@ -25,6 +26,8 @@ def create_app():
     migrate.init_app(app, db)
 
     app.register_blueprint(sites_bp)
+    app.register_blueprint(trailers_bp)
+    app.register_blueprint(appointments_bp)
 
     @app.errorhandler(TrailerNotFoundError)
     def handle_trailer_not_found(error):

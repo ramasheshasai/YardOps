@@ -10,6 +10,7 @@ from yardops.errors import (
     SpotOccupiedError
 )
 from yardops.blueprints.sites import sites_bp
+from yardops.blueprints.dashboard import dashboard_bp
 from yardops import models
 migrate = Migrate()
 from yardops.blueprints.trailers import trailers_bp
@@ -28,6 +29,7 @@ def create_app():
     app.register_blueprint(sites_bp)
     app.register_blueprint(trailers_bp)
     app.register_blueprint(appointments_bp)
+    app.register_blueprint(dashboard_bp)
 
     @app.errorhandler(TrailerNotFoundError)
     def handle_trailer_not_found(error):

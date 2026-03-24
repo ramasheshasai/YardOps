@@ -42,7 +42,7 @@ class AppointmentFactory:
             ).first()
 
             if not spot:
-                raise NoAvailableSpotError("no available spot")
+                raise NoAvailableSpotError("no available spots")
         
         gate_pass = uuid.uuid4().hex[:8]
 

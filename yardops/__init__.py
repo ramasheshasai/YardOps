@@ -30,6 +30,7 @@ def create_app():
     app.register_blueprint(trailers_bp)
     app.register_blueprint(appointments_bp)
     app.register_blueprint(dashboard_bp)
+    app.config.from_object(Config)
 
     @app.errorhandler(TrailerNotFoundError)
     def handle_trailer_not_found(error):

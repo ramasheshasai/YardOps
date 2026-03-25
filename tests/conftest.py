@@ -4,17 +4,18 @@ from yardops.extensions import db
 from yardops.models.site import Site
 from yardops.models.yard_spot import YardSpot
 from yardops.models.trailer import Trailer
+from config import TestingConfig
 
 @pytest.fixture
 def app():
-    app = create_app("testing")
+    app = create_app(TestingConfig)
     with app.app_context():
         db.create_all()
         yield app
-        db.drop_app()
+        db.drop_all()
 
 @pytest.fixture
-def Client(app):
+def client(app):
     return app.test_client()
 
 @pytest.fixture
@@ -27,7 +28,7 @@ def db_session(app):
 def sample_site(db_session):
     site = Site(name = "test site", address = "123")
     db_session.add(site)
-    db_session.commit()
+    db_session.commit() 
 
     for i in range(4):
         spot = YardSpot(site_id = site.id,is_occupied = False)
@@ -36,14 +37,14 @@ def sample_site(db_session):
     return site
 
 @pytest.fixture
-def drytrailer(db_sesssion):
+def drytrailer(db_session):
     trailer = Trailer(
         trailer_number = "123",
         trailer_type = "DRY",
         carrier_name = "test carrier"
     )
-    db_sesssion.add(trailer)
-    db_sesssion.commit()
+    db_session.add(trailer)
+    db_session.commit()
     return trailer
 
 

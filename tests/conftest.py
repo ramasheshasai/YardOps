@@ -5,51 +5,57 @@ from yardops.models.site import Site
 from yardops.models.yard_spot import YardSpot
 from yardops.models.trailer import Trailer
 from config import TestingConfig
+from yardops.extensions import redis_client
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def app():
     app = create_app(TestingConfig)
-    with app.app_context():
-        db.create_all()
-        yield app
-        db.drop_all()
+
+    ctx = app.app_context()
+    ctx.push()   
+
+    db.create_all()
+
+    yield app
+
+    db.session.remove()
+    db.drop_all()
+    ctx.pop()  
+
+@pytest.fixture(autouse=True)
+def clear_redis():
+    redis_client.flushall()
 
 @pytest.fixture
 def client(app):
-    return app.test_client()
+    with app.test_client() as client:
+        with app.app_context():   
+            yield client
 
 @pytest.fixture
-def db_session(app):
-    db.session.begin()
-    yield db.session
-    db.session.rollback()
-
-@pytest.fixture
-def sample_site(db_session):
+def sample_site(app):
     site = Site(name = "test site", address = "123")
-    db_session.add(site)
-    db_session.commit() 
+    db.session.add(site)
+    db.session.commit() 
 
     for i in range(4):
-        spot = YardSpot(site_id = site.id,is_occupied = False)
-        db_session.add(spot)
-    db_session.commit()
+        spot = YardSpot(
+            site_id = site.id,
+            is_occupied = False,
+            spot_label = f"Spot {i+1}"
+        )
+        db.session.add(spot)
+    db.session.commit()
+    db.session.refresh(site)
     return site
 
 @pytest.fixture
-def drytrailer(db_session):
+def drytrailer(app):
     trailer = Trailer(
         trailer_number = "123",
         trailer_type = "DRY",
         carrier_name = "test carrier"
     )
-    db_session.add(trailer)
-    db_session.commit()
+    db.session.add(trailer)
+    db.session.commit()
     return trailer
-
-
-    
-
-
-
-

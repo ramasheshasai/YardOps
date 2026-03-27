@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from yardops.extensions idbmport 
+from yardops.extensions import db 
 from yardops.models.trailer import Trailer
 from yardops.factories.trailer_factory import TrailerFactory
 

@@ -139,27 +139,197 @@ postgresql://postgres:postgres@postgres:5432/yardops
 
 ---
 
-## 📡 API Endpoints (Sample)
 
-### Create Trailer
+## 📡 API Endpoints
 
-```
-POST /trailers
-```
+---
 
-### Get Trailers
+### 🔹 Trailer APIs
 
-```
-GET /trailers
-```
+#### ➤ Create Trailer
+**POST** `/api/trailers`
 
-### Create Appointment
+**Request Body**
+```json
+{
+  "trailer_type": "REEFER",
+  "trailer_number": "1234",
+  "carrier_name": "ABC",
+  "temp_setting": -10
+}
+````
 
-```
-POST /appointments
+**Response (201)**
+
+```json
+{
+  "id": 1,
+  "trailer_type": "REEFER",
+  "trailer_number": "1234",
+  "carrier_name": "ABC",
+  "temp_setting": -10
+}
 ```
 
 ---
+
+#### ➤ Get Trailers
+
+**GET** `/api/trailers`
+
+**Query Params (optional)**
+
+* `trailer_type`
+* `carrier_name`
+
+---
+
+### 🔹 Site APIs
+
+#### ➤ Create Site
+
+**POST** `/api/sites`
+
+**Request Body**
+
+```json
+{
+  "name": "Site A",
+  "address": "Chennai"
+}
+```
+
+**Response (201)**
+
+```json
+{
+  "id": 1,
+  "name": "Site A",
+  "address": "Chennai"
+}
+```
+
+---
+
+#### ➤ Get Site
+
+**GET** `/api/sites/{site_id}`
+
+**Response (200)**
+
+```json
+{
+  "id": 1,
+  "name": "Site A",
+  "address": "Chennai"
+}
+```
+
+---
+
+#### ➤ Create Yard Spot
+
+**POST** `/api/sites/{site_id}/spots`
+
+**Request Body**
+
+```json
+{
+  "spot_label": "A1"
+}
+```
+
+**Response (201)**
+
+```json
+{
+  "id": 1,
+  "spot_label": "A1",
+  "site_id": 1
+}
+```
+
+---
+
+### 🔹 Appointment APIs
+
+#### ➤ Check-in Trailer
+
+**POST** `/appointments/checkin`
+
+**Request Body**
+
+```json
+{
+  "site_id": 1,
+  "trailer_id": 2,
+  "preferred_spot_id": 1
+}
+```
+
+**Response (201)**
+
+```json
+{
+  "id": 1,
+  "status": "CHECKED_IN",
+  "gate_pass": "abc123",
+  "yard_spot_id": 1
+}
+```
+
+---
+
+#### ➤ Check-out Trailer
+
+**POST** `/appointments/{appointment_id}/checkout`
+
+**Response (200)**
+
+```json
+{
+  "message": "checked out successfully",
+  "appointment_id": 1
+}
+```
+
+---
+
+### 🔹 Dashboard APIs
+
+#### ➤ Get Trailer Count
+
+**GET** `/api/dashboard/{site_id}`
+
+**Response (200)**
+
+```json
+{
+  "site_id": 1,
+  "trailer_count": 3
+}
+```
+
+---
+
+#### ➤ Warm Cache
+
+**POST** `/api/dashboard/warm`
+
+**Response (200)**
+
+```json
+{
+  "message": "Cache warmed successfully",
+  "data": [
+    {
+      "site_id": 1,
+      "trailer_count": 3
+    }
+  ]
+}
+```
+
 
 ## 🧪 Running Tests
 

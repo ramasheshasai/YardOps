@@ -58,4 +58,3 @@ def checkout(appointment_id):
         "message": "checked out successfully",
         "appointment_id": appointment.id
     })
-    

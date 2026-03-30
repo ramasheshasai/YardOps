@@ -49,6 +49,7 @@ def sample_site(app):
     db.session.refresh(site)
     return site
 
+
 @pytest.fixture
 def drytrailer(app):
     trailer = Trailer(

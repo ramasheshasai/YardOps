@@ -16,17 +16,18 @@ spec:
       containers:
         - name: yardops-app
           image: yardops-app:latest
+          imagePullPolicy: Never
           env:
             - name: DATABASE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: yardops-config
-                  key: DATABASE_URL
+                  name: app-config
+                  key: db-url
             - name: REDIS_URL
               valueFrom:
                 configMapKeyRef:
-                  name: yardops-config
-                  key: REDIS_URL
+                  name: app-config
+                  key: redis-url
 
 ---
 apiVersion: v1

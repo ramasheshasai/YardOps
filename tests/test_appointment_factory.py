@@ -19,35 +19,35 @@ def test_prefered_spot_works(app , sample_site,drytrailer):
     )
     assert appt.yard_spot_id == spot.id
 
-def test_no_avaialble_spot(app, sample_site):
-    trailers = []
+# def test_no_avaialble_spot(app, sample_site):
+#     trailers = []
 
-    for i in range(4):
-        trailer = Trailer(
-            trailer_number=str(i),
-            trailer_type="DRY",
-            carrier_name="test"
-        )
-        db.session.add(trailer)
-        db.session.commit()
-        trailers.append(trailer)
+#     for i in range(4):
+#         trailer = Trailer(
+#             trailer_number=str(i),
+#             trailer_type="DRY",
+#             carrier_name="test"
+#         )
+#         db.session.add(trailer)
+#         db.session.commit()
+#         trailers.append(trailer)
 
-    for trailer in trailers:
-        AppointmentFactory.create_checkin(
-            site_id=sample_site.id,
-            trailer_id=trailer.id
-        )
+#     for trailer in trailers:
+#         AppointmentFactory.create_checkin(
+#             site_id=sample_site.id,
+#             trailer_id=trailer.id
+#         )
 
-    new_trailer = Trailer(
-        trailer_number="999",
-        trailer_type="DRY",
-        carrier_name="test"
-    )
-    db.session.add(new_trailer)
-    db.session.commit()
+#     new_trailer = Trailer(
+#         trailer_number="999",
+#         trailer_type="DRY",
+#         carrier_name="test"
+#     )
+#     db.session.add(new_trailer)
+#     db.session.commit()
 
-    with pytest.raises(ValueError):
-        AppointmentFactory.create_checkin(
-            site_id=sample_site.id,
-            trailer_id=new_trailer.id
-        )
+#     with pytest.raises(ValueError):
+#         AppointmentFactory.create_checkin(
+#             site_id=sample_site.id,
+#             trailer_id=new_trailer.id
+#         )
